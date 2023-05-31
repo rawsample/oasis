@@ -49,6 +49,10 @@ class OpenocdInterface(Interface):
         if b"Verified OK" in err:
             self.patchingSuccessful = True
         else:
+            print("\nOpenocd stderr:")
+            print("-"*30)
+            print(err.decode())
+            print("-"*30)
             self.patchingSuccessful = False
 
     def checkOpenOCDDebugger(self):

@@ -5,7 +5,7 @@
 #include "monitor.h"
 #include "messages.h"
 
-#define PACKET_SIZE sizeof(packet_t)
+#define PACKET_SIZE sizeof(packet_t)        // 268
 #define CONN_SIZE sizeof(connection_t)
 #define LDEV_SIZE sizeof(local_device_t)
 #define RDEV_SIZE sizeof(remote_device_t)
@@ -28,23 +28,34 @@ void SCAN_CALLBACK(metric_scan)(metrics_t * metrics) {
   pkg = metrics->current_packet;
   memcpy(message + idx, &pkg, PACKET_SIZE);
   idx += PACKET_SIZE;
-
-  /* Copy current_connection */
-  conn = metrics->current_connection;
-  memcpy(message + idx, &conn, CONN_SIZE);
-  idx += CONN_SIZE;
-
-  /* Copy local_device */
-  ldev = metrics->local_device;
-  memcpy(message + idx, &ldev, LDEV_SIZE);
-  idx += LDEV_SIZE;
-
-  /* Copy remote_device */
-  rdev = metrics->remote_device;
-  memcpy(message + idx, &rdev, RDEV_SIZE);
-  idx += RDEV_SIZE;
-
-  /* Send it through HCI */
   log(message, idx);
+
+  ///* Copy current_connection */
+  //conn = metrics->current_connection;
+  //memcpy(message + idx, &conn, CONN_SIZE);
+  //idx += CONN_SIZE;
+
+  ///* Copy local_device */
+  //ldev = metrics->local_device;
+  //memcpy(message + idx, &ldev, LDEV_SIZE);
+  //idx += LDEV_SIZE;
+
+  ///* Copy remote_device */
+  //rdev = metrics->remote_device;
+  //memcpy(message + idx, &rdev, RDEV_SIZE);
+  //idx += RDEV_SIZE;
+
+  ///* 
+  // * Check the struct values during compile-time.
+  // * If these assert would failed, it would be necessary to update the python part.
+  // */
+  //_Static_assert(PACKET_SIZE == 268, "Wrong guess for PACKET_SIZE");
+  //_Static_assert(CONN_SIZE == 24, "Wrong guess for CONN_SIZE");
+  //_Static_assert(LDEV_SIZE == 7, "Wrong guess for LDEV_SIZE");
+  //_Static_assert(RDEV_SIZE == 12, "Wrong guess for RDEV_SIZE");
+  //_Static_assert(METRIC_SIZE == 313, "Wrong guess for METRIC_SIZE");
+
+  ///* Send it through HCI */
+  //log(message, idx);
 }
 

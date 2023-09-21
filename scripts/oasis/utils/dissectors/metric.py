@@ -30,7 +30,7 @@ class GAP_ROLE(IntEnum):
     CENTRAL = 3              
 
 
-SIZE_PACKET = 267
+SIZE_PACKET = 268
 SIZE_CONN = 21
 SIZE_LDEV = 7
 SIZE_RDEV = 8
@@ -56,6 +56,7 @@ def parse_metric_message(message):
 
     # Unpack packet_t
     raw_packet = message[packet_offset:conn_offset]
+    print(raw_packet)
     data_packet = struct.unpack(format_packet, raw_packet)
     packet = {
         'timestamp': data_data[0],
@@ -65,6 +66,9 @@ def parse_metric_message(message):
         'header': data_data[4:6],
         'content': data_data[6:261],
     }
+
+    print(packet)
+    return packet
 
     # Unpack connenction_t
     raw_conn = message[conn_offset:ldev_offset]

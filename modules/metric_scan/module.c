@@ -13,6 +13,7 @@
 
 void SCAN_CALLBACK(metric_scan)(metrics_t * metrics) {
   uint8_t idx = 0;
+  uint8_t payload_size;
   uint8_t message[METRIC_SIZE];
   packet_t *pkg;
   connection_t *conn;
@@ -24,10 +25,28 @@ void SCAN_CALLBACK(metric_scan)(metrics_t * metrics) {
   message[1] = OPCODE_MONITOR_RX_SCAN;
   idx = 2;
 
-  /* Copy current_packet */
+  /* Copy current_packet
   pkg = metrics->current_packet;
   memcpy(message + idx, &pkg, PACKET_SIZE);
   idx += PACKET_SIZE;
+  log(message, idx);
+  */
+  pkg = metrics->current_packet;
+  memcpy(message + idx, &pkg->timestamp, sizeof(uint32_t));
+  idx += sizeof(uint32_t);
+  memcpy(message + idx, &pkg->valid, sizeof(uint16_t));
+  idx += sizeof(uint16_t);
+  memcpy(message + idx, &pkg->channel, sizeof(uint16_t));
+  idx += sizeof(uint16_t);
+  memcpy(message + idx, &pkg->rssi, sizeof(uint16_t));
+  idx += sizeof(uint16_t);
+  memcpy(message + idx, &pkg->header, 2*sizeof(uint8_t));
+  idx += 2*sizeof(uint8_t);
+
+  payload_size = get_packet_size();
+  memcpy(message + idx, &pkg->content, payload_size*sizeof(uint8_t));
+  idx += payload_size*sizeof(uint8_t);
+
   log(message, idx);
 
   ///* Copy current_connection */

@@ -25,12 +25,7 @@ void SCAN_CALLBACK(metric_scan)(metrics_t * metrics) {
   message[1] = OPCODE_MONITOR_RX_SCAN;
   idx = 2;
 
-  /* Copy current_packet
-  pkg = metrics->current_packet;
-  memcpy(message + idx, &pkg, PACKET_SIZE);
-  idx += PACKET_SIZE;
-  log(message, idx);
-  */
+  /* Copy current_packet */
   pkg = metrics->current_packet;
   memcpy(message + idx, &pkg->timestamp, sizeof(uint32_t));
   idx += sizeof(uint32_t);
@@ -44,6 +39,8 @@ void SCAN_CALLBACK(metric_scan)(metrics_t * metrics) {
   idx += 2*sizeof(uint8_t);
 
   payload_size = get_packet_size();
+  memcpy(message + idx, &payload_size, sizeof(uint8_t));
+  idx += sizeof(uint8_t);
   memcpy(message + idx, &pkg->content, payload_size*sizeof(uint8_t));
   idx += payload_size*sizeof(uint8_t);
 

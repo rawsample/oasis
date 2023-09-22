@@ -15,5 +15,6 @@ def parse_log_message(message, formatting=True):
                 return message_types[message[0]]["formatter"](msg)
             else:
                 return msg
-    except:
+    except Exception as e:
+        print(e)
         return  "LOG => " + message.hex()

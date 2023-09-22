@@ -48,16 +48,15 @@ def parse_metric_message(message):
 
     message = message[1:]
 
-    packet_offset = 0
-    content_offset = packet_offset + 12
-    conn_offset = SIZE_PACKET
-    ldev_offset = conn_offset + SIZE_CONN
-    rdev_offset = ldev_offset + SIZE_LDEV
-    rdev_end = rdev_offset + SIZE_RDEV
+    return "ok"
 
     # Unpack packet_t
+    packet_offset = 0
+    content_offset = packet_offset + 12
+
     raw_packet = message[packet_offset:content_offset]
     data_packet = struct.unpack(format_packet, raw_packet)
+
     content_size = data_packet[6]
     content_end_offset = content_offset + content_size
     raw_content = message[packet_conent_offset:content_end_offset]
@@ -72,6 +71,12 @@ def parse_metric_message(message):
 
     print(packet)
     return packet
+
+    # Set struct offsets
+    conn_offset = content_end_offset
+    ldev_offset = conn_offset + 22
+    rdev_offset = ldev_offset + 7
+    rdev_end = rdev_offset + 8
 
     # Unpack connenction_t
     raw_conn = message[conn_offset:ldev_offset]

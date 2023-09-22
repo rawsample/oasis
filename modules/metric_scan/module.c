@@ -39,27 +39,54 @@ void SCAN_CALLBACK(metric_scan)(metrics_t * metrics) {
   idx += 2*sizeof(uint8_t);
 
   payload_size = get_packet_size();
-  memcpy(message + idx, &payload_size, sizeof(uint8_t));
-  idx += sizeof(uint8_t);
+  //memcpy(message + idx, &payload_size, sizeof(uint8_t));
+  //idx += sizeof(uint8_t);
   memcpy(message + idx, &pkg->content, payload_size*sizeof(uint8_t));
   idx += payload_size*sizeof(uint8_t);
 
-  log(message, idx);
-
   ///* Copy current_connection */
   //conn = metrics->current_connection;
-  //memcpy(message + idx, &conn, CONN_SIZE);
-  //idx += CONN_SIZE;
+  //memcpy(message + idx, &conn->access_address, sizeof(uint32_t));
+  //idx += sizeof(uint32_t);
+  //memcpy(message + idx, &conn->crc_init, sizeof(uint32_t));
+  //idx += sizeof(uint32_t);
+  //memcpy(message + idx, &conn->hop_interval, sizeof(uint16_t));
+  //idx += sizeof(uint16_t);
+  //memcpy(message + idx, &conn->packets_lost_counter, sizeof(uint16_t));
+  //idx += sizeof(uint16_t);
+  //memcpy(message + idx, &conn->tx_counter, sizeof(uint16_t));
+  //idx += sizeof(uint16_t);
+  //memcpy(message + idx, &conn->rx_counter, sizeof(uint16_t));
+  //idx += sizeof(uint16_t);
+  //memcpy(message + idx, &conn->channel_map, 5*sizeof(uint8_t));
+  //idx += 5*sizeof(uint8_t);
 
   ///* Copy local_device */
   //ldev = metrics->local_device;
-  //memcpy(message + idx, &ldev, LDEV_SIZE);
-  //idx += LDEV_SIZE;
+  //memcpy(message + idx, &ldev->gap_role, sizeof(gap_role_t));
+  //idx += sizeof(gap_role_t);
+  //memcpy(message + idx, &ldev->address, 6*sizeof(uint8_t));
+  //idx += 6*sizeof(uint8_t);
 
   ///* Copy remote_device */
   //rdev = metrics->remote_device;
-  //memcpy(message + idx, &rdev, RDEV_SIZE);
-  //idx += RDEV_SIZE;
+  //memcpy(message + idx, &rdev->address_type, sizeof(address_type_t));
+  //idx += sizeof(address_type_t);
+  //memcpy(message + idx, &rdev->gap_role, sizeof(gap_role_t));
+  //idx += sizeof(gap_role_t);
+  //memcpy(message + idx, &rdev->address, 6*sizeof(uint8_t));
+  //idx += 6*sizeof(uint8_t);
+  /*
+   * Warning: change the python side
+  #ifdef SCAN_ENABLED
+  memcpy(message + idx, &rdev->advertisements_interval, sizeof(uint32_t));
+  idx += sizeof(uint32_t);
+  #endif
+  #ifdef CONNECTION_ENABLED
+  memcpy(message + idx, &rdev->connection_interval, sizeof(uint32_t));
+  idx += sizeof(uint32_t);
+  #endif
+  */
 
   ///* 
   // * Check the struct values during compile-time.
@@ -71,7 +98,7 @@ void SCAN_CALLBACK(metric_scan)(metrics_t * metrics) {
   //_Static_assert(RDEV_SIZE == 12, "Wrong guess for RDEV_SIZE");
   //_Static_assert(METRIC_SIZE == 313, "Wrong guess for METRIC_SIZE");
 
-  ///* Send it through HCI */
-  //log(message, idx);
+  /* Send it through HCI */
+  log(message, idx);
 }
 

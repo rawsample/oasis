@@ -39,43 +39,41 @@ void SCAN_CALLBACK(metric_scan)(metrics_t * metrics) {
   idx += 2*sizeof(uint8_t);
 
   payload_size = get_packet_size();
-  //memcpy(message + idx, &payload_size, sizeof(uint8_t));
-  //idx += sizeof(uint8_t);
   memcpy(message + idx, &pkg->content, payload_size*sizeof(uint8_t));
   idx += payload_size*sizeof(uint8_t);
 
-  ///* Copy current_connection */
-  //conn = metrics->current_connection;
-  //memcpy(message + idx, &conn->access_address, sizeof(uint32_t));
-  //idx += sizeof(uint32_t);
-  //memcpy(message + idx, &conn->crc_init, sizeof(uint32_t));
-  //idx += sizeof(uint32_t);
-  //memcpy(message + idx, &conn->hop_interval, sizeof(uint16_t));
-  //idx += sizeof(uint16_t);
-  //memcpy(message + idx, &conn->packets_lost_counter, sizeof(uint16_t));
-  //idx += sizeof(uint16_t);
-  //memcpy(message + idx, &conn->tx_counter, sizeof(uint16_t));
-  //idx += sizeof(uint16_t);
-  //memcpy(message + idx, &conn->rx_counter, sizeof(uint16_t));
-  //idx += sizeof(uint16_t);
-  //memcpy(message + idx, &conn->channel_map, 5*sizeof(uint8_t));
-  //idx += 5*sizeof(uint8_t);
+  /* Copy current_connection */
+  conn = metrics->current_connection;
+  memcpy(message + idx, &conn->access_address, sizeof(uint32_t));
+  idx += sizeof(uint32_t);
+  memcpy(message + idx, &conn->crc_init, sizeof(uint32_t));
+  idx += sizeof(uint32_t);
+  memcpy(message + idx, &conn->hop_interval, sizeof(uint16_t));
+  idx += sizeof(uint16_t);
+  memcpy(message + idx, &conn->packets_lost_counter, sizeof(uint16_t));
+  idx += sizeof(uint16_t);
+  memcpy(message + idx, &conn->tx_counter, sizeof(uint16_t));
+  idx += sizeof(uint16_t);
+  memcpy(message + idx, &conn->rx_counter, sizeof(uint16_t));
+  idx += sizeof(uint16_t);
+  memcpy(message + idx, &conn->channel_map, 5*sizeof(uint8_t));
+  idx += 5*sizeof(uint8_t);
 
-  ///* Copy local_device */
-  //ldev = metrics->local_device;
-  //memcpy(message + idx, &ldev->gap_role, sizeof(gap_role_t));
-  //idx += sizeof(gap_role_t);
-  //memcpy(message + idx, &ldev->address, 6*sizeof(uint8_t));
-  //idx += 6*sizeof(uint8_t);
+  /* Copy local_device */
+  ldev = metrics->local_device;
+  memcpy(message + idx, &ldev->gap_role, sizeof(gap_role_t));
+  idx += sizeof(gap_role_t);
+  memcpy(message + idx, &ldev->address, 6*sizeof(uint8_t));
+  idx += 6*sizeof(uint8_t);
 
-  ///* Copy remote_device */
-  //rdev = metrics->remote_device;
-  //memcpy(message + idx, &rdev->address_type, sizeof(address_type_t));
-  //idx += sizeof(address_type_t);
-  //memcpy(message + idx, &rdev->gap_role, sizeof(gap_role_t));
-  //idx += sizeof(gap_role_t);
-  //memcpy(message + idx, &rdev->address, 6*sizeof(uint8_t));
-  //idx += 6*sizeof(uint8_t);
+  /* Copy remote_device */
+  rdev = metrics->remote_device;
+  memcpy(message + idx, &rdev->address_type, sizeof(address_type_t));
+  idx += sizeof(address_type_t);
+  memcpy(message + idx, &rdev->gap_role, sizeof(gap_role_t));
+  idx += sizeof(gap_role_t);
+  memcpy(message + idx, &rdev->address, 6*sizeof(uint8_t));
+  idx += 6*sizeof(uint8_t);
   /*
    * Warning: change the python side
   #ifdef SCAN_ENABLED

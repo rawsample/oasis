@@ -30,13 +30,12 @@ class GAP_ROLE(IntEnum):
     CENTRAL = 3              
 
 
-SIZE_PACKET = 268
 SIZE_CONN = 21
 SIZE_LDEV = 7
 SIZE_RDEV = 8
 
 # String format used to unpack the data
-format_packet = "<IHHH2BB"
+format_packet = "<IHHH2B"
 format_conn = "<IIBHHHH5B"
 format_ldev = "<B6B"
 format_rdev = "<BB6B"   # NOTE: advertisements_interval and connection_interval are not included
@@ -48,8 +47,6 @@ def parse_metric_message(message):
 
     message = message[1:]
 
-    return "ok"
-
     # Unpack packet_t
     packet_offset = 0
     content_offset = packet_offset + 12
@@ -57,20 +54,19 @@ def parse_metric_message(message):
     raw_packet = message[packet_offset:content_offset]
     data_packet = struct.unpack(format_packet, raw_packet)
 
-    content_size = data_packet[6]
+    content_size = message[content_offset]
     content_end_offset = content_offset + content_size
-    raw_content = message[packet_conent_offset:content_end_offset]
+    raw_content = message[content_offset:content_end_offset]
     packet = {
-        'timestamp': data_data[0],
-        'valid': data_data[1],
-        'channel': data_data[2],
-        'rssi': data_data[3],
-        'header': data_data[4:6],
+        'timestamp': data_packet[0],
+        'valid': data_packet[1],
+        'channel': data_packet[2],
+        'rssi': data_packet[3],
+        'header': data_packet[4:6],
         'content': raw_content,
     }
 
     print(packet)
-    return packet
 
     # Set struct offsets
     conn_offset = content_end_offset
@@ -91,6 +87,8 @@ def parse_metric_message(message):
         'channel_map': data_conn[5:10],
     }
 
+    print(conn)
+
     # Unpack local_device_t
     raw_ldev = message[ldev_offset:rdev_offset]
     data_ldev = struct.unpack(format_ldev, raw_ldev)
@@ -98,6 +96,8 @@ def parse_metric_message(message):
         'gap_role': data_ldev[0],
         'address': data_ldev[1:7],
     }
+
+    print(ldev)
 
     # Unpack remote_device_t
     # NOTE: advertisements_interval and connection_interval are not included
@@ -110,6 +110,8 @@ def parse_metric_message(message):
         #advertisements_interval
         #connection_interval
     }
+
+    print(rdev)
 
     # The metrics as passed to the module through callbacks
     metrics = {

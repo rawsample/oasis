@@ -4,7 +4,7 @@ message_types = {
     0xF0 : {"type":"MONITOR", "parser":monitor.parse_monitor_message, "formatter": monitor.format_monitor_message},
     0xF1 : {"type":"ALERT", "parser":alert.parse_alert_message, "formatter": alert.format_alert_message},
     0xF2 : {"type":"TIMING", "parser":timing.parse_timestamps_message, "formatter": timing.format_timestamps_message},
-    0xF3 : {"type":"METRIC", "parser":metric.parse_metric_message},
+    0xF3 : {"type":"METRIC", "parser":metric.parse_metric_message, "formatter": metric.format_metric_message},
 }
 
 def parse_log_message(message, formatting=True):

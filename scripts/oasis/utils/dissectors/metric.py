@@ -46,6 +46,8 @@ def parse_metric_message(message):
     assert message[0] == OPCODE_MONITOR.RX_SCAN, f"Error: wrong opcode: {message[0]}"
 
     message = message[1:]
+    print(len(message))
+    print(message)
 
     # Unpack packet_t
     packet_offset = 0
@@ -70,12 +72,13 @@ def parse_metric_message(message):
 
     # Set struct offsets
     conn_offset = content_end_offset
-    ldev_offset = conn_offset + 22
+    ldev_offset = conn_offset + 20
     rdev_offset = ldev_offset + 7
     rdev_end = rdev_offset + 8
 
     # Unpack connenction_t
     raw_conn = message[conn_offset:ldev_offset]
+    print(raw_conn)
     data_conn = struct.unpack(format_conn, raw_conn)
     conn = {
         'access_address': data_conn[0],
@@ -91,6 +94,7 @@ def parse_metric_message(message):
 
     # Unpack local_device_t
     raw_ldev = message[ldev_offset:rdev_offset]
+    print(raw_ldev)
     data_ldev = struct.unpack(format_ldev, raw_ldev)
     ldev = {
         'gap_role': data_ldev[0],
@@ -101,8 +105,9 @@ def parse_metric_message(message):
 
     # Unpack remote_device_t
     # NOTE: advertisements_interval and connection_interval are not included
-    raw_ldev = message[rdev_offset:rdev_end]
-    data_ldev = struct.unpack(format_rdev, raw_rdev)
+    raw_rdev = message[rdev_offset:rdev_end]
+    print(raw_rdev)
+    data_rdev = struct.unpack(format_rdev, raw_rdev)
     rdev = {
         'address_type': data_ldev[0],
         'gap_role': data_ldev[1],

@@ -36,7 +36,7 @@ SIZE_RDEV = 8
 
 # String format used to unpack the data
 format_packet = "<IHHH2B"
-format_conn = "<IIBHHHH5B"
+format_conn = "<IIBHHH5B"
 format_ldev = "<B6B"
 format_rdev = "<BB6B"   # NOTE: advertisements_interval and connection_interval are not included
 
@@ -84,7 +84,7 @@ def parse_metric_message(message):
         'packets_lost_counter': data_conn[3],
         'tx_counter': data_conn[4],
         'rx_counter': data_conn[5],
-        'channel_map': data_conn[5:10],
+        'channel_map': data_conn[6:11],
     }
 
     print(conn)
@@ -106,7 +106,7 @@ def parse_metric_message(message):
     rdev = {
         'address_type': data_ldev[0],
         'gap_role': data_ldev[1],
-        'address': data_ldev[2:9],
+        'address': data_ldev[2:8],
         #advertisements_interval
         #connection_interval
     }

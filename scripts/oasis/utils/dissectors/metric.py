@@ -56,10 +56,8 @@ def parse_metric_message(message):
     raw_packet = message[packet_offset:content_offset]
     data_packet = struct.unpack(format_packet, raw_packet)
 
-    content_size = message[content_offset]
-    content_size_bis = data_packet[6]
-    assert content_size == content_size_bis, f"Error payload_size {content_size_bis} != {content_size}"
-    content_end_offset = content_offset + content_size_bis
+    payload_size = data_packet[6]
+    content_end_offset = content_offset + payload_size
     raw_content = message[content_offset:content_end_offset]
     packet = {
         'timestamp': data_packet[0],

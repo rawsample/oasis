@@ -46,8 +46,6 @@ def parse_metric_message(message):
     assert message[0] in {OPCODE_MONITOR.RX_SCAN, OPCODE_MONITOR.INIT_CONN, OPCODE_MONITOR.RX_CONN}, f"Error: wrong opcode: {message[0]}"
 
     message = message[1:]
-    print(len(message))
-    print(message)
 
     # Unpack packet_t
     packet_offset = 0
@@ -68,8 +66,6 @@ def parse_metric_message(message):
         'content': raw_content,
     }
 
-    print(packet)
-
     # Set struct offsets
     conn_offset = content_end_offset
     ldev_offset = conn_offset + 20
@@ -78,7 +74,6 @@ def parse_metric_message(message):
 
     # Unpack connenction_t
     raw_conn = message[conn_offset:ldev_offset]
-    print(raw_conn)
     data_conn = struct.unpack(format_conn, raw_conn)
     conn = {
         'access_address': data_conn[0],
@@ -90,23 +85,17 @@ def parse_metric_message(message):
         'channel_map': data_conn[6:11],
     }
 
-    print(conn)
-
     # Unpack local_device_t
     raw_ldev = message[ldev_offset:rdev_offset]
-    print(raw_ldev)
     data_ldev = struct.unpack(format_ldev, raw_ldev)
     ldev = {
         'gap_role': data_ldev[0],
         'address': data_ldev[1:7],
     }
 
-    print(ldev)
-
     # Unpack remote_device_t
     # NOTE: advertisements_interval and connection_interval are not included
     raw_rdev = message[rdev_offset:rdev_end]
-    print(raw_rdev)
     data_rdev = struct.unpack(format_rdev, raw_rdev)
     rdev = {
         'address_type': data_ldev[0],
@@ -116,8 +105,6 @@ def parse_metric_message(message):
         #connection_interval
     }
 
-    print(rdev)
-
     # The metrics as passed to the module through callbacks
     metrics = {
         'current_packet': packet,
@@ -125,6 +112,7 @@ def parse_metric_message(message):
         'local_device': ldev,
         'remote_device': rdev,
     }
+    print(metrics)
     return metrics
 
 

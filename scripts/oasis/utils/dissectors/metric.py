@@ -112,8 +112,8 @@ def parse_metric_message(message):
         'local_device': ldev,
         'remote_device': rdev,
     }
-    print(metrics)
-    return metrics
+    #print(metrics)
+    return f"{metrics}"
 
 
 def format_metric_message(message):

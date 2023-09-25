@@ -35,7 +35,7 @@ SIZE_LDEV = 7
 SIZE_RDEV = 8
 
 # String format used to unpack the data
-format_packet = "<IHHH2B"
+format_packet = "<IHHH2BB"
 format_conn = "<IIBHHH5B"
 format_ldev = "<B6B"
 format_rdev = "<BB6B"   # NOTE: advertisements_interval and connection_interval are not included
@@ -51,13 +51,15 @@ def parse_metric_message(message):
 
     # Unpack packet_t
     packet_offset = 0
-    content_offset = packet_offset + 12
+    content_offset = packet_offset + 13
 
     raw_packet = message[packet_offset:content_offset]
     data_packet = struct.unpack(format_packet, raw_packet)
 
     content_size = message[content_offset]
-    content_end_offset = content_offset + content_size
+    content_size_bis = data_packet[6]
+    assert content_size == content_size_bis, f"Error payload_size {content_size_bis} != {content_size}"
+    content_end_offset = content_offset + content_size_bis
     raw_content = message[content_offset:content_end_offset]
     packet = {
         'timestamp': data_packet[0],

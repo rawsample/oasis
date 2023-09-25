@@ -39,6 +39,8 @@ void SCAN_CALLBACK(metric_scan)(metrics_t * metrics) {
   idx += 2*sizeof(uint8_t);
 
   payload_size = get_packet_size();
+  memcpy(message + idx, &payload, sizeof(payload_size));
+  idx += sizeof(payload_size);
   memcpy(message + idx, &pkg->content, payload_size*sizeof(uint8_t));
   idx += payload_size*sizeof(uint8_t);
 

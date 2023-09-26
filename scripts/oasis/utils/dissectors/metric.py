@@ -45,7 +45,7 @@ format_rdev = "<BB6B"   # NOTE: advertisements_interval and connection_interval 
 
 
 def parse_metric_message(message):
-    assert message[0] in {OPCODE_MONITOR.RX_SCAN, OPCODE_MONITOR.INIT_CONN, OPCODE_MONITOR.RX_CONN}, f"Error: wrong opcode: {message[0]}"
+    assert message[0] in {OPCODE_METRIC.RX_SCAN, OPCODE_METRIC.INIT_CONN, OPCODE_METRIC.DELETE_CONN, OPCODE_METRIC.RX_CONN, OPCODE_METRIC.TX_CONN}, f"Error: wrong opcode: {message[0]}"
 
     message = message[1:]
 

@@ -93,7 +93,7 @@ void CONN_INIT_CALLBACK(monitor_connection)(metrics_t * metrics) {
 
   /* Header */
   message[0] = MESSAGE_TYPE_METRIC;
-  message[1] = OPCODE_MONITOR_INIT_CONN;
+  message[1] = OPCODE_METRIC_INIT_CONN;
   idx = 2;
 
   /* Copy metrics into message */
@@ -103,13 +103,46 @@ void CONN_INIT_CALLBACK(monitor_connection)(metrics_t * metrics) {
   log(message, idx);
 }
 
+void CONN_DELETE_CALLBACK(monitor_connection)(metrics_t * metrics) {
+  uint8_t idx = 0;
+  uint8_t message[METRIC_SIZE];
+
+  /* Header */
+  message[0] = MESSAGE_TYPE_METRIC;
+  message[1] = OPCODE_METRIC_DELETE_CONN;
+  idx = 2;
+
+  /* Copy metrics into message */
+  idx = create_message(metrics, message, idx);
+
+  /* Send it through HCI */
+  log(message, idx);
+}
+
+
 void CONN_RX_CALLBACK(monitor_connection)(metrics_t * metrics) {
   uint8_t idx = 0;
   uint8_t message[METRIC_SIZE];
 
   /* Header */
   message[0] = MESSAGE_TYPE_METRIC;
-  message[1] = OPCODE_MONITOR_RX_CONN;
+  message[1] = OPCODE_METRIC_RX_CONN;
+  idx = 2;
+
+  /* Copy metrics into message */
+  idx = create_message(metrics, message, idx);
+
+  /* Send it through HCI */
+  log(message, idx);
+}
+
+void CONN_TX_CALLBACK(monitor_connection)(metrics_t * metrics) {
+  uint8_t idx = 0;
+  uint8_t message[METRIC_SIZE];
+
+  /* Header */
+  message[0] = MESSAGE_TYPE_METRIC;
+  message[1] = OPCODE_METRIC_TX_CONN;
   idx = 2;
 
   /* Copy metrics into message */

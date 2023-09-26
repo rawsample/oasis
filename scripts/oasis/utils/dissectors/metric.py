@@ -4,11 +4,13 @@ import json
 from enum import IntEnum
 
 
-class OPCODE_MONITOR(IntEnum):
-    TIME = 0
-    RX_SCAN = 1
-    INIT_CONN = 2
-    RX_CONN = 3
+class OPCODE_METRIC(IntEnum):
+    TIME = 0x0
+    RX_SCAN = 0x1
+    INIT_CONN = 0x2
+    DELETE_CONN = 0x3
+    RX_CONN = 0x4
+    TX_CONN = 0x5
 
 class ADDRESS_TYPE(IntEnum):
     PUBLIC = 0

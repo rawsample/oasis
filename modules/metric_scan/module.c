@@ -22,7 +22,7 @@ void SCAN_CALLBACK(metric_scan)(metrics_t * metrics) {
 
   /* Header */
   message[0] = MESSAGE_TYPE_METRIC;
-  message[1] = OPCODE_MONITOR_RX_SCAN;
+  message[1] = OPCODE_METRIC_RX_SCAN;
   idx = 2;
 
   /* Copy current_packet */

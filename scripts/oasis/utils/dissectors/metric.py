@@ -45,7 +45,8 @@ format_rdev = "<BB6B"   # NOTE: advertisements_interval and connection_interval 
 
 
 def parse_metric_message(message):
-    assert message[0] in {OPCODE_METRIC.RX_SCAN, OPCODE_METRIC.INIT_CONN, OPCODE_METRIC.DELETE_CONN, OPCODE_METRIC.RX_CONN, OPCODE_METRIC.TX_CONN}, f"Error: wrong opcode: {message[0]}"
+    opcode = message[0]
+    assert opcode in {OPCODE_METRIC.RX_SCAN, OPCODE_METRIC.INIT_CONN, OPCODE_METRIC.DELETE_CONN, OPCODE_METRIC.RX_CONN, OPCODE_METRIC.TX_CONN}, f"Error: wrong opcode: {message[0]}"
 
     message = message[1:]
 
@@ -91,7 +92,7 @@ def parse_metric_message(message):
     raw_ldev = message[ldev_offset:rdev_offset]
     data_ldev = struct.unpack(format_ldev, raw_ldev)
     ldev = {
-        'gap_role': data_ldev[0],
+        'gap_role': GAP_ROLE(data_ldev[0]),
         'address': data_ldev[1:7],
     }
 
@@ -109,6 +110,7 @@ def parse_metric_message(message):
 
     # The metrics as passed to the module through callbacks
     metrics = {
+        'opcode_metric': opcode.name,
         'current_packet': packet,
         'current_connection': conn,
         'local_device': ldev,

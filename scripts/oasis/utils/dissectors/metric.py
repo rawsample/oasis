@@ -47,6 +47,7 @@ format_rdev = "<BB6B"   # NOTE: advertisements_interval and connection_interval 
 def parse_metric_message(message):
     opcode = message[0]
     assert opcode in {OPCODE_METRIC.RX_SCAN, OPCODE_METRIC.INIT_CONN, OPCODE_METRIC.DELETE_CONN, OPCODE_METRIC.RX_CONN, OPCODE_METRIC.TX_CONN}, f"Error: wrong opcode: {message[0]}"
+    opcode = OPCODE_METRIC(opcode)
 
     message = message[1:]
 
@@ -110,7 +111,7 @@ def parse_metric_message(message):
 
     # The metrics as passed to the module through callbacks
     metrics = {
-        'opcode_metric': OPCODE_METRIC(opcode),
+        'opcode_metric': opcode.name,
         'current_packet': packet,
         'current_connection': conn,
         'local_device': ldev,

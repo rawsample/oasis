@@ -92,7 +92,7 @@ def parse_metric_message(message):
     raw_ldev = message[ldev_offset:rdev_offset]
     data_ldev = struct.unpack(format_ldev, raw_ldev)
     ldev = {
-        'gap_role': GAP_ROLE(data_ldev[0]),
+        'gap_role': data_ldev[0],
         'address': data_ldev[1:7],
     }
 

@@ -71,7 +71,7 @@ def parse_metric_message(message):
 
     # Set struct offsets
     conn_offset = content_end_offset
-    ldev_offset = conn_offset + 20
+    ldev_offset = conn_offset + 21
     rdev_offset = ldev_offset + 7
     rdev_end = rdev_offset + 8
 

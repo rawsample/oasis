@@ -101,9 +101,9 @@ def parse_metric_message(message):
     raw_rdev = message[rdev_offset:rdev_end]
     data_rdev = struct.unpack(format_rdev, raw_rdev)
     rdev = {
-        'address_type': data_ldev[0],
-        'gap_role': data_ldev[1],
-        'address': data_ldev[2:8],
+        'address_type': data_rdev[0],
+        'gap_role': data_rdev[1],
+        'address': data_rdev[2:8],
         #advertisements_interval
         #connection_interval
     }

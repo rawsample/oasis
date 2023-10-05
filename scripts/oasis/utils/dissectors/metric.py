@@ -110,7 +110,7 @@ def parse_metric_message(message):
 
     # The metrics as passed to the module through callbacks
     metrics = {
-        'opcode_metric': opcode.name,
+        'opcode_metric': OPCODE_METRIC(opcode),
         'current_packet': packet,
         'current_connection': conn,
         'local_device': ldev,

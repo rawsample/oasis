@@ -37,10 +37,10 @@ SIZE_LDEV = 7
 SIZE_RDEV = 8
 
 # String format used to unpack the data
-format_packet = ">IHHH2BB"
-format_conn = ">IIHHHH5B"
-format_ldev = ">B6B"
-format_rdev = ">BB6B"   # NOTE: advertisements_interval and connection_interval are not included
+format_packet = "<IHHH2BB"
+format_conn = "<IIHHHH5B"
+format_ldev = "<B6B"
+format_rdev = "<BB6B"   # NOTE: advertisements_interval and connection_interval are not included
 
 
 

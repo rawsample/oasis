@@ -37,17 +37,16 @@ SIZE_LDEV = 7
 SIZE_RDEV = 8
 
 # String format used to unpack the data
-format_packet = "<IHHH2BB"
-format_conn = "<IIBHHH5B"
-format_ldev = "<B6B"
-format_rdev = "<BB6B"   # NOTE: advertisements_interval and connection_interval are not included
+format_packet = ">IHHH2BB"
+format_conn = ">IIBHHH5B"
+format_ldev = ">B6B"
+format_rdev = ">BB6B"   # NOTE: advertisements_interval and connection_interval are not included
 
 
 
 def parse_metric_message(message):
     opcode = message[0]
     assert opcode in {OPCODE_METRIC.RX_SCAN, OPCODE_METRIC.INIT_CONN, OPCODE_METRIC.DELETE_CONN, OPCODE_METRIC.RX_CONN, OPCODE_METRIC.TX_CONN}, f"Error: wrong opcode: {message[0]}"
-    opcode = OPCODE_METRIC(opcode)
 
     message = message[1:]
 
@@ -111,7 +110,7 @@ def parse_metric_message(message):
 
     # The metrics as passed to the module through callbacks
     metrics = {
-        'opcode_metric': opcode.name,
+        'opcode_metric': opcode,
         'current_packet': packet,
         'current_connection': conn,
         'local_device': ldev,

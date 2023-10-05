@@ -45,6 +45,7 @@ def monitor(address,size,target):
 def interact(command, target, params=[]):
     if command == "log":
         interface = getInterface(target)
+        print(type(interface))
         if not interface.checkSupport("LOG"):
             print("Interface does not support logging.")
             exit(1)
@@ -114,6 +115,45 @@ def interact(command, target, params=[]):
         except KeyboardInterrupt:
             interface.disconnect()
             exit(0)
+
+    elif command == "detect":
+        interface = getInterface(target)
+        print(type(interface))
+        if not interface.checkSupport("LOG"):
+            print("Interface does not support logging.")
+            exit(1)
+
+        interface.connect()
+        sys.stdout.flush()
+        sys.stderr.flush()
+        if len(params) > 0:
+            params
+        detector = detection.Detector(target)
+
+        try:
+            for log in interface.log():
+                msg = dissectors.parse_log_message(log)
+
+                detector.detect(msg)
+                try:
+                    log_line = "<"+target+"> ["+str(time.time())+"] "+msg
+                    print(log_line)
+                    if len(params) > 0:
+                        with open(params[0], "a") as f:
+                            f.write(log_line+"\n")
+                except TypeError:
+                    pass
+                sys.stdout.flush()
+                sys.stderr.flush()
+
+        except KeyboardInterrupt:
+            interface.disconnect()
+            exit(0)
+
+        except KeyboardInterrupt:
+            interface.disconnect()
+            exit(0)
+
 
     elif command == "read" or command == "monitor":
         if len(params) < 1:

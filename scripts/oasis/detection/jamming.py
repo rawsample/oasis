@@ -1,18 +1,16 @@
-from enum import IntEnum
-
 from .module import ALERT, Module
 
 
 
-class MonitorConnection(Module):
+class JammingModule(Module):
 
     def __init__(self, *args, **kwargs):
         super().__init__(target, *args, **kwargs)
 
 
     def conn_rx_callback(self, metrics):
-        self.alert(ALERT.OTHER, metrics)
+        pass
 
     def conn_tx_callback(self, metrics):
-        self.alert(ALERT.OTHER, metrics)
+        pass
 

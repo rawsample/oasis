@@ -1,2 +1,2 @@
-from detection import *
-from btlejack import *
+from .detection import *
+from .btlejack import *

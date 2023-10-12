@@ -34,8 +34,9 @@ class Detector(object):
         metrics = message
 
         # Note: what should be returned ? True / False ? raise an exception ? how to "alert" when an attack is detected ?
-        for module in self.modules:
-            mtc = metrics
-            module.detect(mtc)
+        for module in self.modules.values():
+            if module != None:
+                mtc = metrics
+                module.detect(mtc)
 
 

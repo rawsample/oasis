@@ -1,5 +1,6 @@
 from oasis.utils import patch_parser,conf_parser,dissectors,wireshark
 from oasis.interface import openocd,internalblue,nrfutil
+from oasis.detection import detection
 from scapy.all import BTLE_ADV, BTLE_DATA, BTLE
 import sys,time,struct
 
